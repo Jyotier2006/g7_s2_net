@@ -1,0 +1,575 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{titlesec}
+
+\geometry{margin=1in}
+\setstretch{1.2}
+
+\title{\textbf{Lecture 18: Marginal PMF, Correlation, Covariance, Joint Gaussian Random Variables}}
+\author{Lecture Scribe}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Marginal PMF}
+
+\subsection*{1.1 Definition}
+
+Consider two discrete random variables $X$ and $Y$.
+
+The joint PMF is defined as
+
+\[
+p_{XY}(x,y) = P(X=x, Y=y)
+\]
+
+This gives the probability that both events occur simultaneously.
+
+However, often we want the probability distribution of only one variable.
+
+To obtain it, we sum the joint probabilities over all possible values of the other variable.
+
+Thus,
+
+\[
+p_X(x) = \sum_{y} p_{XY}(x,y)
+\]
+
+\[
+p_Y(y) = \sum_{x} p_{XY}(x,y)
+\]
+
+\textbf{Key Idea}
+
+The marginal PMF of one variable is obtained by summing the joint PMF over all possible values of the other variable.
+
+\subsection*{1.2 Marginal PMF from a Joint PMF Table}
+
+Suppose the joint PMF is given as
+
+\[
+\begin{array}{c|ccc|c}
+X \backslash Y & y_1 & y_2 & y_3 & p_X(x) \\
+\hline
+x_1 & p_{11} & p_{12} & p_{13} & \sum_j p_{1j} \\
+x_2 & p_{21} & p_{22} & p_{23} & \sum_j p_{2j} \\
+x_3 & p_{31} & p_{32} & p_{33} & \sum_j p_{3j} \\
+\hline
+p_Y(y) & \sum_i p_{i1} & \sum_i p_{i2} & \sum_i p_{i3} &
+\end{array}
+\]
+
+Thus
+
+\[
+p_X(x_i)=\sum_j p_{ij}
+\]
+
+\[
+p_Y(y_j)=\sum_i p_{ij}
+\]
+
+Important property
+
+\[
+\sum_i p_X(x_i)=1
+\]
+
+\[
+\sum_j p_Y(y_j)=1
+\]
+
+Thus the marginals are valid probability distributions.
+
+\subsection*{1.3 Example: Computing Marginal PMFs}
+
+Suppose the joint PMF is
+
+\[
+\begin{array}{c|cc}
+ & y=0 & y=1 \\
+\hline
+x=0 & \frac{1}{8} & \frac{1}{4} \\
+x=1 & \frac{3}{8} & \frac{1}{4}
+\end{array}
+\]
+
+\textbf{Step 1: Compute $p_X(x)$}
+
+For $x=0$
+
+\[
+p_X(0)=\frac{1}{8}+\frac{1}{4}=\frac{1}{8}+\frac{2}{8}=\frac{3}{8}
+\]
+
+For $x=1$
+
+\[
+p_X(1)=\frac{3}{8}+\frac{1}{4}=\frac{3}{8}+\frac{2}{8}=\frac{5}{8}
+\]
+
+Thus
+
+\[
+p_X(x)=
+\begin{cases}
+\frac{3}{8}, & x=0 \\
+\frac{5}{8}, & x=1
+\end{cases}
+\]
+
+\textbf{Step 2: Compute $p_Y(y)$}
+
+For $y=0$
+
+\[
+p_Y(0)=\frac{1}{8}+\frac{3}{8}=\frac{4}{8}=\frac{1}{2}
+\]
+
+For $y=1$
+
+\[
+p_Y(1)=\frac{1}{4}+\frac{1}{4}=\frac{1}{2}
+\]
+
+Thus
+
+\[
+p_Y(y)=
+\begin{cases}
+\frac{1}{2}, & y=0 \\
+\frac{1}{2}, & y=1
+\end{cases}
+\]
+
+\section*{2. Correlation}
+
+\subsection*{2.1 Definition}
+
+A basic measure of the joint behavior of two variables is the product moment
+
+\[
+R_{XY}=E[XY]
+\]
+
+For continuous random variables
+
+\[
+R_{XY}=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} xy f_{XY}(x,y) \, dx\, dy
+\]
+
+This represents the average value of the product $XY$.
+
+It is often called a raw correlation measure.
+
+\subsection*{2.2 Limitations}
+
+The raw product moment has some issues:
+
+\begin{itemize}
+\item It depends on the scale of $X$ and $Y$.
+\item It is computed about the origin, not about the mean.
+\end{itemize}
+
+Therefore it mixes together
+
+\begin{itemize}
+\item mean values
+\item spread
+\item dependence
+\end{itemize}
+
+Thus it is not a clean measure of centered dependence.
+
+To remove the effect of means, we center the variables.
+
+This leads to covariance.
+
+\section*{3. Covariance}
+
+\subsection*{3.1 Definition}
+
+Covariance measures how two variables vary together around their means.
+
+\[
+\text{Cov}(X,Y)=E[(X-\mu_X)(Y-\mu_Y)]
+\]
+
+where
+
+\[
+\mu_X=E[X], \quad \mu_Y=E[Y]
+\]
+
+\textbf{Interpretation}
+
+\begin{enumerate}
+\item Subtract the mean from each variable
+\item Measure how their deviations vary together
+\end{enumerate}
+
+\subsection*{3.2 Interpretation}
+
+\textbf{Positive Covariance}
+
+\[
+\text{Cov}(X,Y) > 0
+\]
+
+When one variable increases, the other tends to increase.
+
+Example: GPA vs hours studied.
+
+\textbf{Negative Covariance}
+
+\[
+\text{Cov}(X,Y) < 0
+\]
+
+When one increases, the other tends to decrease.
+
+Example: speed vs travel time.
+
+\textbf{Zero Covariance}
+
+\[
+\text{Cov}(X,Y)=0
+\]
+
+No linear co-variation trend.
+
+Important note:
+
+Zero covariance means uncorrelated but does not necessarily imply independence.
+
+\section*{4. Algebraic Form of Covariance}
+
+Start with the definition
+
+\[
+\text{Cov}(X,Y)=E[(X-\mu_X)(Y-\mu_Y)]
+\]
+
+Expand
+
+\[
+(X-\mu_X)(Y-\mu_Y)=XY-X\mu_Y-Y\mu_X+\mu_X\mu_Y
+\]
+
+Taking expectation
+
+\[
+E[XY-X\mu_Y-Y\mu_X+\mu_X\mu_Y]
+\]
+
+Using linearity of expectation
+
+\[
+E[XY]-\mu_YE[X]-\mu_XE[Y]+\mu_X\mu_Y
+\]
+
+Since
+
+\[
+E[X]=\mu_X, \quad E[Y]=\mu_Y
+\]
+
+Substitute
+
+\[
+E[XY]-\mu_X\mu_Y-\mu_X\mu_Y+\mu_X\mu_Y
+\]
+
+Thus
+
+\[
+\boxed{\text{Cov}(X,Y)=E[XY]-E[X]E[Y]}
+\]
+
+\section*{5. Properties of Covariance}
+
+\begin{enumerate}
+\item Symmetry
+\[
+\text{Cov}(X,Y)=\text{Cov}(Y,X)
+\]
+
+\item Variance as special case
+\[
+\text{Cov}(X,X)=\text{Var}(X)
+\]
+
+\item Linearity with constants
+\[
+\text{Cov}(aX+b,cY+d)=ac\,\text{Cov}(X,Y)
+\]
+
+\item Independence
+
+If $X \perp Y$
+
+\[
+\text{Cov}(X,Y)=0
+\]
+
+But the reverse is not always true.
+\end{enumerate}
+
+\section*{6. Example 1}
+
+Given
+
+\[
+Y=-2X+3
+\]
+
+Find $\text{Cov}(X,Y)$.
+
+Step 1
+
+\[
+\text{Cov}(X,Y)=E[XY]-E[X]E[Y]
+\]
+
+Step 2
+
+\[
+XY=X(-2X+3)
+\]
+
+\[
+XY=-2X^2+3X
+\]
+
+\[
+E[XY]=E[-2X^2+3X]
+\]
+
+Step 3
+
+\[
+E[Y]=-2E[X]+3
+\]
+
+Step 4 Substitute
+
+\[
+\text{Cov}(X,Y)=E[-2X^2+3X]-E[X](-2E[X]+3)
+\]
+
+Simplifying
+
+\[
+\text{Cov}(X,Y)=-2E[X^2]+2(E[X])^2
+\]
+
+But
+
+\[
+\text{Var}(X)=E[X^2]-(E[X])^2
+\]
+
+Thus
+
+\[
+\boxed{\text{Cov}(X,Y)=-2\text{Var}(X)}
+\]
+
+\section*{7. Pearson Correlation Coefficient}
+
+Covariance depends on units.
+
+To normalize we divide by standard deviations.
+
+\[
+\rho_{XY}=\frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}
+\]
+
+Properties
+
+\begin{itemize}
+\item Measures strength and direction of linear relationship
+\item Unit-free
+\item Normalized covariance
+\end{itemize}
+
+Range
+
+\[
+-1 \leq \rho_{XY} \leq 1
+\]
+
+Interpretation
+
+\begin{itemize}
+\item $\rho>0$ positive linear trend
+\item $\rho<0$ negative linear trend
+\item $\rho=0$ no linear correlation
+\end{itemize}
+
+\section*{8. Example 2 (Joint PDF)}
+
+Given joint density
+
+\[
+f_{XY}(x,y)=
+\begin{cases}
+\frac{xy}{96}, & 0<x<4, \; 1<y<5 \\
+0, & \text{otherwise}
+\end{cases}
+\]
+
+Compute
+
+\begin{enumerate}
+\item $E[X]$
+\item $E[Y]$
+\item $E[XY]$
+\item $E[2X+3Y]$
+\item $\text{Var}(X)$
+\item $\text{Var}(Y)$
+\item $\text{Cov}(X,Y)$
+\item $\rho_{XY}$
+\end{enumerate}
+
+Step 1
+
+\[
+E[X]=\int_0^4 \int_1^5 x f_{XY}(x,y)\, dy\, dx
+\]
+
+Substituting
+
+\[
+E[X]=\int_0^4 \int_1^5 x\frac{xy}{96} \, dy\, dx
+\]
+
+Result
+
+\[
+E[X]=\frac{3}{8}
+\]
+
+Step 2
+
+\[
+E[Y]=\frac{9}{31}
+\]
+
+Step 3
+
+Since $X$ and $Y$ are independent
+
+\[
+E[XY]=E[X]E[Y]
+\]
+
+\[
+E[XY]=\frac{3}{8}\times\frac{9}{31}=\frac{27}{248}
+\]
+
+Step 4
+
+\[
+E[2X+3Y]=2E[X]+3E[Y]
+\]
+
+Step 5
+
+\[
+\text{Var}(X)=\frac{9}{8}
+\]
+
+Step 6
+
+\[
+\text{Var}(Y)=\frac{81}{92}
+\]
+
+Step 7
+
+\[
+\text{Cov}(X,Y)=E[XY]-E[X]E[Y]
+\]
+
+\[
+\text{Cov}(X,Y)=0
+\]
+
+Step 8
+
+\[
+\rho_{XY}=\frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}=0
+\]
+
+\section*{9. Jointly Gaussian Random Variables}
+
+\subsection*{Definition}
+
+A pair $(X,Y)$ is jointly Gaussian if
+
+\begin{itemize}
+\item Their joint density is bivariate Gaussian
+\item Each marginal is Gaussian
+\end{itemize}
+
+\[
+X \sim N(\mu_X,\sigma_X^2)
+\]
+
+\[
+Y \sim N(\mu_Y,\sigma_Y^2)
+\]
+
+\subsection*{Joint Gaussian PDF}
+
+\[
+f_{XY}(x,y)=
+\frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}
+\exp
+\left(
+-\frac{1}{2(1-\rho^2)}
+\left[
+\left(\frac{x-\mu_X}{\sigma_X}\right)^2
++
+\left(\frac{y-\mu_Y}{\sigma_Y}\right)^2
+-
+2\rho
+\left(\frac{x-\mu_X}{\sigma_X}\right)
+\left(\frac{y-\mu_Y}{\sigma_Y}\right)
+\right]
+\right)
+\]
+
+where
+
+\[
+\rho = \text{correlation coefficient}
+\]
+
+\subsection*{Real Life Example}
+
+Consider climate system variables
+
+\begin{itemize}
+\item $X$ : atmospheric CO$_2$ concentration (ppm)
+\item $Y$ : global temperature anomaly ($^\circ$C)
+\end{itemize}
+
+Environmental randomness may cause their joint behavior to follow a Gaussian model.
+
+If
+
+\[
+\rho>0
+\]
+
+then higher CO$_2$ levels tend to occur with higher temperatures.
+
+\end{document}
