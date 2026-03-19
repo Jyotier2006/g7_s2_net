@@ -1,0 +1,379 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+
+\begin{document}
+
+\title{Lecture Scribe\\
+CSE400 – Fundamentals of Probability in Computing\\
+Lecture 18: Marginal PMF, Correlation, Covariance, Joint Gaussian Random Variables}
+\author{Instructor: Dhaval Patel, PhD}
+\date{March 12, 2026}
+\maketitle
+
+\section{Marginal PMF}
+
+\subsection{Definition}
+
+For discrete random variables $X$ and $Y$, the joint PMF is:
+\[
+p_{XY}(x,y) = P(X = x, Y = y)
+\]
+
+The marginal PMFs are obtained by summing over the other variable:
+\[
+p_X(x) = \sum_{y} p_{XY}(x,y)
+\]
+\[
+p_Y(y) = \sum_{x} p_{XY}(x,y)
+\]
+
+\textbf{Key Idea:} The marginal PMF of one variable is obtained by summing the joint PMF over all possible values of the other variable.
+
+\subsection{Marginal PMF from a Joint PMF Table}
+
+From a joint PMF table:
+\begin{itemize}
+\item Row sums give $p_X(x)$
+\item Column sums give $p_Y(y)$
+\end{itemize}
+
+\[
+p_X(x_i) = \sum_j p_{ij}, \quad p_Y(y_j) = \sum_i p_{ij}
+\]
+
+Also,
+\[
+\sum_i p_X(x_i) = 1, \quad \sum_j p_Y(y_j) = 1
+\]
+
+\subsection{Solved Example}
+
+Given joint PMF:
+
+\[
+\begin{array}{c|cc}
+ & y=0 & y=1 \\
+\hline
+x=0 & \frac{1}{8} & \frac{1}{4} \\
+x=1 & \frac{3}{8} & \frac{1}{4}
+\end{array}
+\]
+
+\textbf{Step 1: Compute $p_X(x)$}
+\[
+p_X(0) = \frac{1}{8} + \frac{1}{4} = \frac{3}{8}
+\]
+\[
+p_X(1) = \frac{3}{8} + \frac{1}{4} = \frac{5}{8}
+\]
+
+\textbf{Step 2: Compute $p_Y(y)$}
+\[
+p_Y(0) = \frac{1}{8} + \frac{3}{8} = \frac{1}{2}
+\]
+\[
+p_Y(1) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}
+\]
+
+\textbf{Final Result:}
+\[
+p_X(x) =
+\begin{cases}
+\frac{3}{8}, & x=0 \\
+\frac{5}{8}, & x=1
+\end{cases}
+\quad
+p_Y(y) =
+\begin{cases}
+\frac{1}{2}, & y=0 \\
+\frac{1}{2}, & y=1
+\end{cases}
+\]
+
+\section{Correlation}
+
+\subsection{Definition}
+
+A basic way to measure joint behavior is through the product moment:
+\[
+R_{XY} = E[XY]
+\]
+
+It represents the average value of the product $XY$.
+
+It is a raw correlation measure.
+
+\subsection{Properties and Interpretation}
+
+\[
+R_{XY} = E[XY]
+\]
+
+\begin{itemize}
+\item Depends on the scale of $X$ and $Y$
+\item Computed about the origin, not about the means
+\item Mixes:
+\begin{itemize}
+\item Mean values
+\item Spread
+\item Dependence
+\end{itemize}
+\end{itemize}
+
+If:
+\[
+R_{XY} = 0
+\]
+$\Rightarrow$ Variables are orthogonal about the origin.
+
+\textbf{Transition:} To remove the effect of means, variables are centered $\rightarrow$ leads to covariance.
+
+\section{Covariance}
+
+\subsection{Definition}
+
+\[
+\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]
+\]
+
+where:
+\[
+\mu_X = E[X], \quad \mu_Y = E[Y]
+\]
+
+\subsection{Interpretation}
+
+\begin{itemize}
+\item Measures how centered variables vary together
+\item Indicates direction of joint variation:
+\begin{itemize}
+\item Positive covariance $\rightarrow$ same direction
+\item Negative covariance $\rightarrow$ opposite direction
+\item Zero covariance $\rightarrow$ no linear co-variation
+\end{itemize}
+\item Important: Magnitude depends on units $\rightarrow$ cannot measure strength directly
+\end{itemize}
+
+\subsection{Algebraic Form}
+
+Starting with:
+\[
+\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]
+\]
+
+\[
+= E[XY - X\mu_Y - \mu_X Y + \mu_X \mu_Y]
+\]
+
+\[
+= E[XY] - \mu_Y E[X] - \mu_X E[Y] + \mu_X \mu_Y
+\]
+
+Since:
+\[
+\mu_X = E[X], \quad \mu_Y = E[Y]
+\]
+
+\[
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y]
+\]
+
+\subsection{Properties}
+
+\begin{itemize}
+\item Symmetry:
+\[
+\text{Cov}(X,Y) = \text{Cov}(Y,X)
+\]
+
+\item Variance as Special Case:
+\[
+\text{Cov}(X,X) = \text{Var}(X)
+\]
+
+\item Linearity:
+\[
+\text{Cov}(aX + b, cY + d) = ac\,\text{Cov}(X,Y)
+\]
+
+\item Independence:
+\[
+X \perp Y \Rightarrow \text{Cov}(X,Y) = 0
+\]
+\end{itemize}
+
+\textbf{Note:} Zero covariance $\Rightarrow$ uncorrelated, but does not imply independence.
+
+\subsection{Example 1}
+
+Given:
+\[
+Y = -2X + 3
+\]
+
+Find $\text{Cov}(X,Y)$.
+
+\textbf{Step 1:}
+\[
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y]
+\]
+
+\textbf{Step 2:}
+\[
+XY = X(-2X + 3) = -2X^2 + 3X
+\]
+\[
+E[Y] = E[-2X + 3] = -2E[X] + 3
+\]
+
+\textbf{Step 3:}
+\[
+\text{Cov}(X,Y) = E[-2X^2 + 3X] - E[X](-2E[X] + 3)
+\]
+\[
+= -2E[X^2] + 3E[X] + 2(E[X])^2 - 3E[X]
+\]
+\[
+= -2E[X^2] + 2(E[X])^2
+\]
+
+\textbf{Step 4:}
+
+Using:
+\[
+\text{Var}(X) = E[X^2] - (E[X])^2
+\]
+
+\[
+\text{Cov}(X,Y) = -2\,\text{Var}(X)
+\]
+
+\subsection{Pearson’s Correlation Coefficient}
+
+\[
+\rho_{XY} = \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
+\]
+
+\begin{itemize}
+\item Measures strength and direction of linear relationship
+\item Normalized version of covariance
+\item Unit-free
+\end{itemize}
+
+\[
+-1 \le \rho_{XY} \le 1
+\]
+
+\[
+\rho_{XY} > 0: \text{ positive linear trend}
+\]
+\[
+\rho_{XY} < 0: \text{ negative linear trend}
+\]
+\[
+\rho_{XY} = 0: \text{ no linear correlation}
+\]
+
+\subsection{Example 2}
+
+Given:
+\[
+f_{XY}(x,y) =
+\begin{cases}
+\frac{xy}{96}, & 0 < x < 4, \; 1 < y < 5 \\
+0, & \text{otherwise}
+\end{cases}
+\]
+
+Results (as derived in slides):
+
+\[
+E[X] = \frac{8}{3}
+\]
+\[
+E[Y] = \frac{31}{9}
+\]
+
+Since $X$ and $Y$ are independent:
+\[
+E[XY] = E[X]E[Y] = \frac{248}{27}
+\]
+
+\[
+E[2X + 3Y] = \frac{47}{3}
+\]
+
+\[
+\text{Var}(X) = \frac{8}{9}
+\]
+\[
+\text{Var}(Y) = \frac{92}{81}
+\]
+
+\[
+\text{Cov}(X,Y) = 0
+\]
+\[
+\rho_{XY} = 0
+\]
+
+\section{Jointly Gaussian Random Variables}
+
+\subsection{Definition}
+
+A pair $(X,Y)$ is jointly Gaussian if:
+\begin{itemize}
+\item The joint density has the bivariate Gaussian form
+\item The marginals are Gaussian
+\end{itemize}
+
+\subsection{Applications}
+
+\begin{itemize}
+\item Signal processing
+\item Communication systems
+\item Modeling continuous noisy measurements
+\end{itemize}
+
+\subsection{Joint Gaussian PDF}
+
+\[
+f_{XY}(x,y) =
+\frac{1}{2\pi \sigma_X \sigma_Y \sqrt{1-\rho^2}}
+\exp \left(
+-\frac{1}{2(1-\rho^2)}
+\left[
+\left(\frac{x-\mu_X}{\sigma_X}\right)^2
++
+\left(\frac{y-\mu_Y}{\sigma_Y}\right)^2
+-
+2\rho
+\left(\frac{x-\mu_X}{\sigma_X}\right)
+\left(\frac{y-\mu_Y}{\sigma_Y}\right)
+\right]
+\right)
+\]
+
+Where:
+\begin{itemize}
+\item $\mu_X, \mu_Y$: means
+\item $\sigma_X, \sigma_Y$: standard deviations
+\item $\rho$: Pearson correlation coefficient
+\end{itemize}
+
+\subsection{Interpretation}
+
+Example (from slide):
+
+\begin{itemize}
+\item $X$: CO$_2$ concentration
+\item $Y$: temperature anomaly
+\end{itemize}
+
+If:
+\[
+\rho > 0
+\]
+$\Rightarrow$ Higher CO$_2$ levels tend to occur with higher temperatures.
+
+\end{document} 
