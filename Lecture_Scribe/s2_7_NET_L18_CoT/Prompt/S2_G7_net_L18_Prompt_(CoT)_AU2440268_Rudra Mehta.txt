@@ -1,0 +1,9 @@
+okay so i have to generate a lecture scribe for this lecture (L18), and this scribe is for exam preparation, like if someone studies only this they should be able to revise properly and recall what was taught in class , while writing, you should reason step by step through everything, like definitions, assumptions, proofs, derivations and examples, and this reasoning should also be visible in the scribe so that the logical flow is clear while studying , but all of this must be strictly based only on the provided lecture slides/pdf and textbook content, don’t use anything from outside, and don’t add any new explanation, intuition or examples which are not present in the given material 
+
+include all important things like definitions, notation, assumptions, theorem statements, and wherever proofs or derivations are there, write them properly step by step exactly as in lecture so that they can be followed during revision, same for examples also
+
+also follow the same structure and order as the lecture, so the flow of topics and ideas remains consistent and easy to understand later
+
+importantly...... do not invent or assume anything which is not explicitly given in the context 
+
+overall it should look like proper academic exam notes, not casual explanation, and reasoning should help in understanding the steps as taught in lecture only
