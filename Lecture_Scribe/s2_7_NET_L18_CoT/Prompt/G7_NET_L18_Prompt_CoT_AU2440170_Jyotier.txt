@@ -1,0 +1,7 @@
+Prepare a lecture scribe based only on the provided lecture slides and textbook context. The scribe should serve as dependable reference material for exam preparation and must accurately capture the content covered in the lecture so that it can be used effectively for revision.
+
+While creating the scribe present definitions, notation, assumptions, theorem statements or results, formulas, algorithms, proofs, derivations and worked examples in a clear step-by-step manner following the same logical sequence as demonstrated in the lecture. Include all necessary intermediate steps, mathematical expressions and conclusions required to understand and reconstruct the concepts during exam revision. 
+
+Ensure that the content strictly follows the provided lecture slides and textbook context. Do not introduce any new explanations, examples, assumptions, formula or reasoning that are not explicitly included in the given materials. 
+
+Maintain a formal academic tone and structure the scribe in a well-organized manner so that the progression of concepts, definitions, results, algorithms, proofs and examples is clear and easy to follow for revision purposes.
