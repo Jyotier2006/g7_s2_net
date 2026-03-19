@@ -1,0 +1,259 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{CSE400 -- Lecture 18 Scribe}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Marginal PMF, Correlation, Covariance, Joint Gaussian RVs}
+
+\section{Marginal PMF}
+
+\subsection{Definition}
+
+For discrete random variables $X$ and $Y$, the joint PMF is:
+
+\[
+p_{XY}(x,y) = P(X=x, Y=y)
+\]
+
+\subsection*{Derivation of Marginal PMF}
+
+For $X$:
+\[
+p_X(x) = \sum_y p_{XY}(x,y)
+\]
+
+For $Y$:
+\[
+p_Y(y) = \sum_x p_{XY}(x,y)
+\]
+
+\textbf{Key Idea:}  
+The marginal PMF of one variable is obtained by summing the joint PMF over all possible values of the other variable.
+
+\subsection{Marginal PMF from Joint PMF Table}
+
+Row sums:
+\[
+p_X(x_i) = \sum_j p_{ij}
+\]
+
+Column sums:
+\[
+p_Y(y_j) = \sum_i p_{ij}
+\]
+
+Also,
+\[
+\sum_i p_X(x_i) = 1, \quad \sum_j p_Y(y_j) = 1
+\]
+
+\subsection{Example}
+
+\[
+\begin{array}{c|cc}
+ & y=0 & y=1 \\
+\hline
+x=0 & \frac{1}{8} & \frac{1}{4} \\
+x=1 & \frac{3}{8} & \frac{1}{4}
+\end{array}
+\]
+
+\subsubsection*{Step-by-step}
+
+\[
+p_X(0) = \frac{1}{8} + \frac{1}{4} = \frac{3}{8}
+\]
+\[
+p_X(1) = \frac{3}{8} + \frac{1}{4} = \frac{5}{8}
+\]
+
+\[
+p_Y(0) = \frac{1}{8} + \frac{3}{8} = \frac{1}{2}
+\]
+\[
+p_Y(1) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}
+\]
+
+\textbf{Final Marginals:}
+
+\[
+p_X(x) =
+\begin{cases}
+\frac{3}{8}, & x=0 \\
+\frac{5}{8}, & x=1
+\end{cases}
+\quad
+p_Y(y) =
+\begin{cases}
+\frac{1}{2}, & y=0 \\
+\frac{1}{2}, & y=1
+\end{cases}
+\]
+
+\section{Correlation}
+
+\subsection{Definition}
+
+\[
+R_{XY} = E[XY]
+\]
+
+\textbf{Interpretation:}  
+Represents the average value of the product $XY$.
+
+\subsection{Observations}
+
+\begin{itemize}
+\item Depends on scale of $X$ and $Y$
+\item Computed about origin
+\item Combines mean, spread, and dependence
+\end{itemize}
+
+\textbf{Important:}
+\[
+R_{XY} = 0 \Rightarrow \text{orthogonal about origin}
+\]
+
+\section{Covariance}
+
+\subsection{Definition}
+
+\[
+\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]
+\]
+
+\[
+\mu_X = E[X], \quad \mu_Y = E[Y]
+\]
+
+\subsection{Interpretation}
+
+\begin{itemize}
+\item Positive $\Rightarrow$ same direction
+\item Negative $\Rightarrow$ opposite direction
+\item Zero $\Rightarrow$ no linear co-variation
+\end{itemize}
+
+\textbf{Note:} Depends on units, not strength.
+
+\subsection{Algebraic Form}
+
+\[
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y]
+\]
+
+\subsection{Properties}
+
+\begin{itemize}
+\item $\text{Cov}(X,Y) = \text{Cov}(Y,X)$
+\item $\text{Cov}(X,X) = \text{Var}(X)$
+\item $\text{Cov}(aX+b, cY+d) = ac \cdot \text{Cov}(X,Y)$
+\item $X \perp Y \Rightarrow \text{Cov}(X,Y) = 0$
+\end{itemize}
+
+\textbf{Important:}  
+Zero covariance does not imply independence.
+
+\subsection{Example}
+
+Given:
+\[
+Y = -2X + 3
+\]
+
+\[
+\text{Cov}(X,Y) = -2 \text{Var}(X)
+\]
+
+\section{Pearson Correlation Coefficient}
+
+\subsection{Definition}
+
+\[
+\rho_{XY} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
+\]
+
+\subsection{Properties}
+
+\begin{itemize}
+\item $-1 \leq \rho \leq 1$
+\item Unit-free
+\item Measures strength and direction
+\end{itemize}
+
+\section{Continuous Case Example}
+
+\[
+f_{XY}(x,y) =
+\begin{cases}
+\frac{xy}{96}, & 0<x<4, \; 1<y<5 \\
+0, & \text{otherwise}
+\end{cases}
+\]
+
+\[
+E[X] = \frac{8}{3}, \quad E[Y] = \frac{31}{9}
+\]
+
+\[
+E[XY] = \frac{248}{27}
+\]
+
+\[
+\text{Cov}(X,Y) = 0
+\]
+
+\[
+\rho_{XY} = 0
+\]
+
+\section{Jointly Gaussian Random Variables}
+
+\subsection{Definition}
+
+$(X,Y)$ is jointly Gaussian if:
+\begin{itemize}
+\item Joint density is bivariate Gaussian
+\item Marginals are Gaussian
+\end{itemize}
+
+\subsection{Joint PDF}
+
+\[
+f_{XY}(x,y) =
+\frac{1}{2\pi \sigma_X \sigma_Y \sqrt{1-\rho^2}}
+\exp\left(
+-\frac{1}{2(1-\rho^2)}
+\left[
+\left(\frac{x-\mu_X}{\sigma_X}\right)^2 +
+\left(\frac{y-\mu_Y}{\sigma_Y}\right)^2
+- 2\rho \left(\frac{x-\mu_X}{\sigma_X}\right)\left(\frac{y-\mu_Y}{\sigma_Y}\right)
+\right]
+\right)
+\]
+
+\subsection{Interpretation}
+
+Used in:
+\begin{itemize}
+\item Signal processing
+\item Communication systems
+\item Noisy measurements
+\end{itemize}
+
+Example:
+\begin{itemize}
+\item $X$: CO$_2$ concentration
+\item $Y$: temperature anomaly
+\end{itemize}
+
+If $\rho > 0$, higher CO$_2$ associated with higher temperature.
+
+\end{document}
