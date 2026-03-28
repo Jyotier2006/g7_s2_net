@@ -1,0 +1,23 @@
+Queue Delay Analysis: Deterministic vs Randomized Routing
+======================================================================
+
+Summary table
+                  algorithm  best_delay  mean_delay  success_rate  expanded_nodes  runtime_ms  path_length
+                   Dijkstra        36.0    36.00000           1.0          84.000    0.091095           19
+                         A*        36.0    36.00000           1.0          76.000    0.098943           19
+Softmax Randomized (T=0.15)        36.0    36.01725           1.0          18.000  115.626981           19
+ Softmax Randomized (T=0.3)        36.0    36.08750           1.0          18.005  123.340650           19
+ Softmax Randomized (T=0.5)        36.0    36.26825           1.0          18.059  118.767696           19
+ Softmax Randomized (T=0.8)        36.0    38.33700           1.0          18.728  122.422879           19
+ Softmax Randomized (T=1.2)        36.0    44.32075           1.0          20.554  144.109968           19
+
+Temperature sensitivity
+ temperature  best_delay  mean_delay  std_delay  success_rate
+        0.15        36.0    36.01725   0.091255           1.0
+        0.30        36.0    36.08750   0.237368           1.0
+        0.50        36.0    36.26825   0.790359           1.0
+        0.80        36.0    38.33700  15.037833           1.0
+        1.20        36.0    44.32075  28.207242           1.0
+
+Detailed inference
+Dijkstra gives the exact minimum queue-delay path with total delay 36.0000. A* reaches the same optimum in this graph, which shows that the heuristic guidance is compatible with the network layout for this instance. The softmax randomized method introduces controlled stochastic exploration: instead of always choosing the minimum-energy next hop, it samples the next node using a softmax distribution over candidate energies. Among the tested temperatures, Softmax Randomized (T=0.15) gave the strongest average result with mean delay 36.0172, best observed delay 36.0000, and success rate 100.00%. Its average delay is 0.0479% above the deterministic optimum, which is expected because randomness trades perfect optimality for route diversity and exploration. The histogram acts as an empirical PDF approximation and shows the concentration of randomized delays, while the empirical CDF shows the probability of obtaining a route below a chosen threshold. For this graph, the probability of getting a path within 10% of the deterministic optimum is 100.00%. Therefore, Dijkstra is the best choice when exact minimum queue delay is required, A* is a strong informed deterministic alternative, and softmax randomized routing is useful when the study needs probabilistic behavior, multiple candidate routes, or an algorithmic base that can later be extended to dynamic congestion scenarios.
