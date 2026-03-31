@@ -371,14 +371,6 @@ Overall, the work demonstrates a clear and practical comparison between determin
 
 ---
 
-## Authors
-
-Group project submission for networking / queue-delay analysis.
-
-You can add your team member names, enrollment numbers, guide name, and institute here before pushing to GitHub.
-
----
-
 ## License
 
 This repository is intended for academic and educational use.
