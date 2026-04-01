@@ -1,0 +1,459 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{booktabs}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+
+\begin{document}
+
+\begin{center}
+{\LARGE \textbf{�� Lecture Scribe: Inequalities and Tail Bounds (L21–L22)}}
+\end{center}
+
+\vspace{0.5cm}
+
+\section*{1. Tail of a Random Variable}
+
+\subsection*{Definition}
+The \textbf{tail} of a random variable $X$ is:
+\[
+P(X > x)
+\]
+
+\subsection*{Step-by-step Understanding}
+\begin{itemize}
+\item We focus on \textbf{values greater than a threshold $(x)$}
+\item This represents \textbf{extreme events (rare cases)}
+\end{itemize}
+
+\subsection*{Why tails matter}
+\begin{itemize}
+\item Mean $\rightarrow$ gives \textbf{average behavior (easy)}
+\item Tail $\rightarrow$ captures \textbf{rare extreme events (hard)}
+\end{itemize}
+
+Examples from context:
+\begin{itemize}
+\item Jobs delayed for long time
+\item Server overload (too many requests)
+\end{itemize}
+
+\subsection*{Key difficulty}
+\begin{itemize}
+\item Computing exact tail probability requires:
+\begin{itemize}
+\item Summing many small probabilities
+\end{itemize}
+\item Hence $\rightarrow$ \textbf{complex and computationally expensive}
+\end{itemize}
+
+\section*{2. Why Tail Bounds?}
+
+\subsection*{Problem}
+Exact computation:
+\[
+P(X \ge k)
+\]
+involves long summations (Binomial/Poisson).
+
+\subsection*{Solution Idea}
+Instead of exact value:
+\begin{itemize}
+\item Find an \textbf{upper bound}
+\item Easier to compute
+\item Still guarantees safety
+\end{itemize}
+
+\subsection*{Key Insight}
+\[
+P(X \ge k) \le \text{simple bound}
+\]
+
+\section*{3. Markov’s Inequality}
+
+\subsection*{Definition}
+For a \textbf{non-negative random variable $(X)$}:
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+
+\subsection*{Assumptions}
+\begin{itemize}
+\item $X \ge 0$
+\item Only \textbf{mean $(E[X])$} is known
+\end{itemize}
+
+\subsection*{Proof Idea (Step-by-step)}
+\begin{enumerate}
+\item Start with expectation:
+\[
+E[X] = \sum x \cdot P(X=x)
+\]
+\item Focus only on values where $X \ge a$
+\item Replace those values by $a$:
+\[
+E[X] \ge a \cdot P(X \ge a)
+\]
+\item Rearranging:
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+\end{enumerate}
+
+\subsection*{Interpretation}
+\begin{itemize}
+\item Large values are rare
+\item Uses \textbf{only mean $\rightarrow$ very weak bound}
+\end{itemize}
+
+\subsection*{Solved Example (Step-by-step)}
+
+\textbf{Given:}
+\begin{itemize}
+\item Average grade = 70
+\item Threshold = 90
+\end{itemize}
+
+\textbf{Step 1: Define variable}
+\[
+X = \text{student grade}, \quad E[X] = 70
+\]
+
+\textbf{Step 2: Apply Markov}
+\[
+P(X \ge 90) \le \frac{70}{90}
+\]
+
+\textbf{Step 3: Simplify}
+\[
+P(X \ge 90) \le \frac{7}{9} \approx 0.778
+\]
+
+\textbf{Result}
+\begin{itemize}
+\item At most \textbf{77.8\% students} can get A
+\end{itemize}
+
+\section*{4. Chebyshev’s Inequality}
+
+\subsection*{Key Idea}
+Uses:
+\begin{itemize}
+\item Mean $(\mu)$
+\item Variance $(\sigma^2)$
+\end{itemize}
+
+Controls:
+\begin{itemize}
+\item \textbf{Deviation from mean}
+\end{itemize}
+
+\subsection*{Definition}
+\[
+P(|X - \mu| \ge a) \le \frac{\text{Var}(X)}{a^2}
+\]
+
+\subsection*{Proof Idea}
+\begin{enumerate}
+\item Start with deviation:
+\[
+|X - \mu|
+\]
+\item Square it:
+\[
+(X - \mu)^2
+\]
+\item Apply Markov inequality:
+\[
+P((X-\mu)^2 \ge a^2)
+\le \frac{E[(X-\mu)^2]}{a^2}
+\]
+\item Use:
+\[
+E[(X-\mu)^2] = \text{Var}(X)
+\]
+\end{enumerate}
+
+\subsection*{Interpretation}
+\begin{itemize}
+\item Bounds \textbf{how far values go from mean}
+\item Better than Markov
+\end{itemize}
+
+\subsection*{Solved Example}
+
+\textbf{Given:}
+\begin{itemize}
+\item Mean = 70
+\item Std dev = 5 $\rightarrow$ Variance = 25
+\item Threshold = 90
+\end{itemize}
+
+\textbf{Step 1: Convert condition}
+\[
+X \ge 90 \Rightarrow X - 70 \ge 20
+\]
+
+\textbf{Step 2: Apply Chebyshev}
+\[
+P(X \ge 90) \le P(|X - 70| \ge 20)
+\]
+
+\textbf{Step 3: Substitute}
+\[
+\le \frac{25}{20^2} = \frac{25}{400}
+\]
+
+\textbf{Step 4: Simplify}
+\[
+= 0.0625
+\]
+
+\textbf{Result}
+\begin{itemize}
+\item Only \textbf{6.25\% maximum probability}
+\end{itemize}
+
+\section*{5. Chernoff Bound}
+
+\subsection*{Key Idea}
+Progression:
+\begin{itemize}
+\item Markov $\rightarrow$ uses $(X)$
+\item Chebyshev $\rightarrow$ uses $((X-\mu)^2)$
+\item Chernoff $\rightarrow$ uses $(e^{tX})$
+\end{itemize}
+
+\subsection*{Insight}
+\begin{itemize}
+\item Exponential grows fast
+\item Amplifies large values $\rightarrow$ tighter tail bound
+\end{itemize}
+
+\subsection*{Core Trick}
+\[
+P(X \ge a) = P(e^{tX} \ge e^{ta})
+\]
+
+Apply Markov:
+\[
+P(X \ge a) \le \frac{E[e^{tX}]}{e^{ta}}
+\]
+
+\subsection*{Final Form}
+\[
+P(X \ge a) \le \min_{t>0} \frac{E[e^{tX}]}{e^{ta}}
+\]
+
+\subsection*{Key Insight}
+\begin{itemize}
+\item Holds for all $t > 0$
+\item Choose best $t \rightarrow$ tightest bound
+\end{itemize}
+
+\subsection*{Lower Tail Bound (Derivation Steps)}
+
+Goal:
+\[
+P(X \le a)
+\]
+
+\textbf{Step 1: Choose $t < 0$}
+\begin{itemize}
+\item Multiplying flips inequality
+\end{itemize}
+
+\[
+P(X \le a) = P(tX \ge ta)
+\]
+
+\textbf{Step 2: Exponentiate}
+\[
+P(e^{tX} \ge e^{ta})
+\]
+
+\textbf{Step 3: Apply Markov}
+\[
+\le \frac{E[e^{tX}]}{e^{ta}}
+\]
+
+\textbf{Step 4: Minimize over $t < 0$}
+
+Final:
+\[
+P(X \le a) \le \min_{t<0} e^{-ta} E[e^{tX}]
+\]
+
+\subsection*{Example (Binomial Case)}
+
+Given:
+\begin{itemize}
+\item $X \sim \text{Binomial}(20, 0.5)$
+\item $\mu = 10$
+\end{itemize}
+
+Goal:
+\[
+P(X = 0)
+\]
+
+\textbf{Step 1: Use lower tail}
+\[
+(1 - \delta)\mu = 0 \Rightarrow \delta = 1
+\]
+
+\textbf{Step 2: Apply bound}
+\[
+P(X \le 0) \le e^{-\mu \delta^2 / 2}
+\]
+
+\textbf{Step 3: Substitute}
+\[
+= e^{-10/2} = e^{-5}
+\]
+
+\textbf{Result}
+\[
+\approx 0.0067
+\]
+
+\begin{itemize}
+\item Very small probability
+\end{itemize}
+
+\section*{6. Jensen’s Inequality}
+
+\subsection*{Convex Function Definition}
+A function $g(x)$ is convex if:
+\[
+g(\alpha x_1 + (1-\alpha)x_2)
+\le \alpha g(x_1) + (1-\alpha)g(x_2)
+\]
+
+\subsection*{Key Interpretation}
+\begin{itemize}
+\item Function lies \textbf{below straight line}
+\item Convex combination $\rightarrow$ weighted average
+\end{itemize}
+
+\subsection*{From Convexity to Expectation}
+Expectation = weighted average:
+\[
+E[X] = \sum p_i x_i
+\]
+
+Apply convexity:
+\[
+g(E[X]) \le E[g(X)]
+\]
+
+\subsection*{Jensen’s Inequality (Final)}
+\[
+g(E[X]) \le E[g(X)]
+\]
+
+\subsection*{Interpretation}
+\begin{itemize}
+\item Apply average first $\rightarrow$ smaller value
+\item Apply function first $\rightarrow$ larger value
+\end{itemize}
+
+\subsection*{Example (Step-by-step)}
+
+Given:
+\begin{itemize}
+\item $X = 1$ with 0.5
+\item $X = 3$ with 0.5
+\item $g(x) = x^2$
+\end{itemize}
+
+\textbf{Step 1: Compute mean}
+\[
+E[X] = 0.5(1) + 0.5(3) = 2
+\]
+
+\textbf{Step 2: Left side}
+\[
+g(E[X]) = 2^2 = 4
+\]
+
+\textbf{Step 3: Right side}
+\[
+E[g(X)] = 0.5(1^2) + 0.5(3^2) = 5
+\]
+
+\textbf{Result}
+\[
+4 \le 5
+\]
+
+\section*{7. Case Study: System Design Insight}
+
+\subsection*{Problem Setup}
+\begin{itemize}
+\item $X$: incoming requests/sec
+\item $C$: system capacity
+\end{itemize}
+
+Failure:
+\[
+X > C
+\]
+
+Requirement:
+\[
+P(X > C) \le 0.01
+\]
+
+\subsection*{Results Using Different Bounds}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Method & Info Used & Capacity Required \\
+\midrule
+Markov & Mean only & 1,000,000 \\
+Chebyshev & Mean + variance & 30,000 \\
+Chernoff & Full distribution & 14,500 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Final Insight}
+
+\textbf{Golden Rule:}
+
+\begin{quote}
+More statistical information $\Rightarrow$ tighter bounds $\Rightarrow$ lower cost
+\end{quote}
+
+\section*{Final Summary (Exam Ready)}
+
+\begin{itemize}
+\item Tail = probability of extreme events
+\item Markov:
+\begin{itemize}
+\item Uses mean
+\item Weak bound
+\end{itemize}
+\item Chebyshev:
+\begin{itemize}
+\item Uses mean + variance
+\item Better bound
+\end{itemize}
+\item Chernoff:
+\begin{itemize}
+\item Uses exponential transformation
+\item Tightest bound
+\end{itemize}
+\item Jensen:
+\begin{itemize}
+\item Convexity $\Rightarrow$ expectation inequality
+\end{itemize}
+\end{itemize}
+
+\end{document}
