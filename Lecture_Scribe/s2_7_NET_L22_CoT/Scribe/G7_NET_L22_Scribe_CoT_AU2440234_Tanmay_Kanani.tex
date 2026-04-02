@@ -1,0 +1,242 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+
+\begin{document}
+
+\title{Lecture Scribe: Inequalities and Tail Bounds}
+\author{Course: CSE400 – Fundamentals of Probability in Computing \\ Instructor: Dhaval Patel}
+\date{}
+\maketitle
+
+\section*{1. Introduction and Motivation}
+
+\subsection*{1.1 Definition of Tail}
+
+The tail of a random variable $X$ is defined as:
+
+\[
+P(X > x)
+\]
+
+This represents the probability that the random variable takes values larger than a threshold $x$.
+
+\subsection*{1.2 Why Do We Care About Tails?}
+
+From the lecture:
+
+\begin{itemize}
+\item Jobs delayed more than 24 hours
+\item Packets dropped due to full buffer
+\end{itemize}
+
+These represent rare but important events.
+
+\subsection*{1.3 Key Idea}
+
+Mean $\rightarrow$ average behavior (easy to compute) \\
+Tail $\rightarrow$ rare extreme events (hard to compute)
+
+\subsection*{1.4 Why Are Tails Hard to Compute?}
+
+\begin{itemize}
+\item Requires summing many small probabilities
+\item Leads to long and complicated expressions
+\end{itemize}
+
+\section*{2. Examples of Tail Events}
+
+\subsection*{2.1 Example 1: Load Balancing}
+
+\textbf{Problem:} \\
+Suppose $n$ jobs are distributed among $n$ servers at random. \\
+Find:
+
+\[
+P(\text{a particular server gets } \geq k \text{ jobs})
+\]
+
+\subsubsection*{2.1.1 Intuition}
+
+\begin{itemize}
+\item Jobs are assigned randomly
+\item Most servers get few jobs
+\item Occasionally, one server gets many jobs
+\end{itemize}
+
+This is a tail event (rare overload).
+
+\subsubsection*{2.1.2 Mathematical Formulation}
+
+Let:
+
+\[
+X \sim \text{Binomial}(n, p)
+\]
+
+Then:
+
+\[
+P(X \geq k) = \sum_{i = k}^{n} \binom{n}{i} p^i (1 - p)^{n - i}
+\]
+
+\subsection*{2.2 Example 2: Poisson Arrivals}
+
+\textbf{Problem:} \\
+Jobs arrive according to a Poisson process with rate $\lambda$. \\
+Find:
+
+\[
+P(\text{at least } k \text{ arrivals in one hour})
+\]
+
+\subsubsection*{2.2.1 Intuition}
+
+\begin{itemize}
+\item Jobs arrive randomly over time
+\item Most intervals have moderate arrivals
+\item Occasionally, bursts occur
+\end{itemize}
+
+This is a tail event (sudden spike).
+
+\subsubsection*{2.2.2 Mathematical Formulation}
+
+Let:
+
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+Then:
+
+\[
+P(X \geq k) = \sum_{i = k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\section*{3. Why Tail Bounds Are Needed}
+
+\subsection*{3.1 Exact Computation is Difficult}
+
+From the lecture:
+
+\[
+P(X \geq k) = \sum_{i = k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\[
+P(X \geq k) = \sum_{i = k}^{n} \binom{n}{i} p^i (1 - p)^{n - i}
+\]
+
+These involve:
+
+\begin{itemize}
+\item Long summations
+\item Complex calculations
+\end{itemize}
+
+Hence:
+
+Exact tail probabilities are often hard to compute
+
+\subsection*{3.2 Core Idea of Tail Bounds}
+
+Instead of computing exact values:
+
+\begin{itemize}
+\item Compute an upper bound
+\item Easier to evaluate
+\item Still provides a guarantee
+\end{itemize}
+
+Formally:
+
+\[
+P(X \geq k) \leq \text{simple expression}
+\]
+
+\subsection*{3.3 Key Insight}
+
+Approximate safely instead of computing exactly
+
+\section*{4. Running Example (Used Throughout Lecture)}
+
+\subsection*{4.1 Setup}
+
+Flip a fair coin $n$ times \\
+Let:
+
+\[
+X = \text{number of heads}
+\]
+
+Then:
+
+\[
+X \sim \text{Binomial}\left(n, \frac{1}{2}\right)
+\]
+
+\subsection*{4.2 Mean}
+
+\[
+E[X] = \frac{n}{2}
+\]
+
+\subsection*{4.3 Tail Question}
+
+\[
+P\left(X \geq \frac{3n}{4}\right)
+\]
+
+This represents:
+
+\begin{itemize}
+\item Getting unusually many heads
+\item A tail event
+\end{itemize}
+
+\subsection*{4.4 Purpose of Example}
+
+\begin{itemize}
+\item Develop progressively tighter bounds
+\item Apply all inequalities on the same example
+\end{itemize}
+
+\section*{5. Markov’s Inequality}
+
+\subsection*{5.1 Key Idea}
+
+Uses only the mean \\
+Large values are rare
+
+Example from lecture:
+
+If average $= 10$, very few values can be $\geq 100$
+
+\subsection*{5.2 Statement of Markov’s Inequality}
+
+For a non-negative random variable $X$:
+
+\[
+P(X \geq a) \leq \frac{E[X]}{a}
+\]
+
+\subsection*{5.3 Interpretation}
+
+\begin{itemize}
+\item Provides a simple upper bound
+\item Requires only expectation
+\item No need for full distribution
+\end{itemize}
+
+\section*{Conclusion (Covered Portion)}
+
+From the lecture content covered:
+
+\begin{itemize}
+\item Tail probabilities measure rare extreme events
+\item Exact computation is difficult due to long summations
+\item Tail bounds provide simple, computable guarantees
+\item Markov’s inequality is the first and simplest bound, using only the mean
+\end{itemize}
+
+\end{document}
